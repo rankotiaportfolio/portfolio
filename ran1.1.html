@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rankotia.vfx</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#b84dff;
+  --p2:#d080ff;
+  --pg:rgba(184,77,255,.12);
+  --pb:rgba(184,77,255,.2);
+  --pb2:rgba(184,77,255,.35);
+  --bg:#060510;
+  --card:#0c0a18;
+  --row:#111028;
+  --t:#ede8ff;
+  --m:rgba(237,232,255,.65);
+  --dim:rgba(237,232,255,.38);
+  --glow:0 0 16px rgba(184,77,255,.55),0 0 40px rgba(184,77,255,.18);
+  --glowsm:0 0 8px rgba(184,77,255,.5),0 0 20px rgba(184,77,255,.15);
+}
+
+body{
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 80% 0%, rgba(120,40,200,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 10% 100%, rgba(80,20,160,.08) 0%, transparent 50%);
+  color:var(--t);
+  font-family:'Syne',sans-serif;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem 1.25rem;
+}
+
+/* ─── CARD ─── */
+.card{
+  width:100%;max-width:680px;
+  background:var(--card);
+  border:1px solid var(--pb);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 0 0 1px rgba(184,77,255,.06), 0 32px 80px rgba(0,0,0,.6), 0 0 120px rgba(184,77,255,.06);
+}
+
+/* ─── SECTION LABEL ─── */
+.sl{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:1.35rem;
+}
+.sl-text{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.25rem;
+  letter-spacing:.2em;
+  color:var(--t);
+  white-space:nowrap;
+  text-shadow:0 0 18px rgba(184,77,255,.35);
+}
+.sl-line{flex:1;height:1px;background:linear-gradient(90deg,var(--pb),transparent)}
+
+/* ─── COMMON PADDING FOR ALL SECTIONS ─── */
+.top, .bio, .progs, .player-wrap, .collab, .links-section {
+  padding: 2rem;
+  border-bottom: 1px solid var(--pb);
+}
+.links-section {
+  border-bottom: none;
+}
+
+/* ─── TOP ─── */
+.top{
+  position:relative;
+  overflow:hidden;
+}
+.top::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,77,255,.09) 0%,transparent 70%);
+  pointer-events:none;
+}
+.top-row1{display:flex;align-items:center;gap:1.2rem; flex-wrap: wrap;}
+.avatar{
+  width:64px;height:64px;border-radius:50%;
+  border:1.5px solid rgba(184,77,255,.5);
+  background:linear-gradient(135deg,rgba(184,77,255,.2),rgba(80,20,160,.3));
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--glowsm);
+  position:relative;
+}
+.avatar::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:1px solid rgba(184,77,255,.15);
+}
+.av-init{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:var(--p2);letter-spacing:.05em}
+
+.top-name-row{display:flex;align-items:center;gap:.6rem}
+.top-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.1rem;
+  letter-spacing:.12em;
+  color:var(--t);
+  line-height:.95;
+}
+.top-name span{color:var(--p2);text-shadow:var(--glowsm)}
+.tg-circle{
+  width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(184,77,255,.45);
+  background:rgba(184,77,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  text-decoration:none;
+  transition:border-color .18s,background .18s,box-shadow .18s;
+  box-shadow:0 0 6px rgba(184,77,255,.2);
+}
+.tg-circle:hover{border-color:var(--p2);background:rgba(184,77,255,.25);box-shadow:var(--glowsm)}
+.tg-circle svg{width:14px;height:14px;fill:var(--p2)}
+.top-roles{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  color:var(--m);
+  letter-spacing:.05em;
+  margin-top:.4rem;
+  line-height:1.6;
+}
+.top-since{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.78rem;
+  letter-spacing:.22em;
+  color:var(--dim);
+  border-left:1px solid var(--pb);
+  padding-left:.6rem;
+  height:52px;
+  display:flex;align-items:center;
+  margin-left: auto; /* Прижимает вправо, если есть место */
+}
+
+/* Quick links row */
+.top-links{
+  display:flex;gap:.5rem; flex-wrap: wrap;
+  margin-top:1.1rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(184,77,255,.1);
+}
+.qlink{
+  display:flex;align-items:center;gap:.45rem;
+  padding:.4rem .8rem;
+  border-radius:100px;
+  border:1px solid var(--pb);
+  background:var(--pg);
+  text-decoration:none;
+  transition:border-color .18s,background .18s;
+}
+.qlink:hover{border-color:var(--p2);background:rgba(184,77,255,.18)}
+.qlink-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--p2);letter-spacing:.06em;font-weight:500}
+.qlink-handle{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--m);letter-spacing:.04em}
+.qlink-dot{width:4px;height:4px;border-radius:50%;background:var(--pb2);flex-shrink:0}
+
+/* ─── BIO ─── */
+.bio-body p {
+  display: flex;
+  align-items: flex-start;
+}
+
+.bio-body{
+  font-size:1.1rem;
+  line-height:1.7;
+  color:var(--m);
+}
+.bio-body b{color:var(--t);font-weight:700}
+.bio-body a{color:var(--p2);text-decoration:none;border-bottom:1px solid rgba(184,77,255,.35);padding-bottom:1px}
+.bio-body a:hover{color:var(--t);border-color:var(--p2)}
+
+.tire{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;
+  color:var(--p2);
+  text-shadow:0 0 18px rgba(184,77,255,.35);
+  margin-right:8px;
+  line-height: 1.2; /* Немного корректируем высоту тире для идеального выравнивания */
+}
+
+/* Исправление опечатки, о которой говорилось ранее (заменены () на {}) */
+.player-meta .pm-cat {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;
+  color:var(--p2);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.8; 
+  margin-top: 3px;
+}
+
+.tire{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;
+  color:var(--p2);
+  text-shadow:0 0 18px rgba(184,77,255,.35);
+  margin-right:8px;
+  vertical-align: middle;
+}
+
+.bio-dirs-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .88rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #f0c8ff;
+  margin-top: 1.6rem;
+  margin-bottom: .7rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.bio-dirs-label::before {
+  content: '';
+  width: 4px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  background: var(--p2);
+  box-shadow: 0 0 10px rgba(184,77,255,.85);
+}
+
+.bio-dirs{
+  margin-top:.5rem;
+  display:flex;flex-wrap:wrap;gap:.5rem;
+}
+.dir-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.75rem;
+  font-weight:700;
+  color:#f3dcff;
+  letter-spacing:.04em;
+  padding:.45rem .95rem;
+  border-radius:100px;
+  border:1px solid rgba(208,128,255,.45);
+  background:linear-gradient(135deg,rgba(184,77,255,.18),rgba(120,40,200,.1));
+  box-shadow:0 0 10px rgba(184,77,255,.12),inset 0 0 12px rgba(255,255,255,.02);
+  text-shadow:0 0 8px rgba(208,128,255,.25);
+  transition:.18s ease;
+}
+.dir-tag:hover{
+  color:#fff;
+  border-color:rgba(208,128,255,.75);
+  background:linear-gradient(135deg,rgba(184,77,255,.28),rgba(120,40,200,.16));
+  box-shadow:0 0 16px rgba(184,77,255,.22);
+  transform:translateY(-1px);
+}
+
+/* ─── PROGRAMS ─── */
+.prog-group{margin-bottom:1.4rem;}
+.prog-group:last-child{margin-bottom:0;}
+.prog-group-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  margin-bottom:.85rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.prog-group-label.gl-main{color:#f0c8ff;}
+.prog-group-label.gl-extra{color:#d8b4ff;}
+.prog-group-label::before{content:'';width:4px;height:14px;border-radius:3px;flex-shrink:0;}
+.gl-main::before{background:var(--p2);box-shadow:0 0 10px rgba(184,77,255,.85);}
+.gl-extra::before{background:#d8b4ff;box-shadow:0 0 10px rgba(216,180,255,.55);}
+
+.prog-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap:.7rem;
+}
+.prog-tile{
+  min-height:54px;
+  padding:.8rem 1rem;
+  border-radius:14px;
+  display:flex;align-items:center;gap:.75rem;
+  transition:border-color .18s,background .18s,transform .16s,box-shadow .18s;
+  cursor:default;
+}
+.prog-tile.pt-main{
+  border:1px solid rgba(208,128,255,.38);
+  background:linear-gradient(135deg,rgba(184,77,255,.16),rgba(90,30,180,.08));
+  box-shadow:inset 0 0 18px rgba(255,255,255,.015),0 0 12px rgba(184,77,255,.08);
+}
+.prog-tile.pt-main:hover{
+  border-color:rgba(208,128,255,.9);
+  background:linear-gradient(135deg,rgba(184,77,255,.24),rgba(90,30,180,.14));
+  transform:translateY(-2px);
+  box-shadow:0 0 18px rgba(184,77,255,.16);
+}
+.prog-tile.pt-extra{
+  border:1px solid rgba(216,180,255,.24);
+  background:linear-gradient(135deg,rgba(216,180,255,.08),rgba(120,60,180,.05));
+}
+.prog-tile.pt-extra:hover{
+  border-color:rgba(216,180,255,.65);
+  background:linear-gradient(135deg,rgba(216,180,255,.14),rgba(120,60,180,.09));
+  transform:translateY(-2px);
+}
+.ptdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pt-main .ptdot{background:#f0c8ff;box-shadow:0 0 10px rgba(208,128,255,.95);}
+.pt-extra .ptdot{background:#d8b4ff;box-shadow:0 0 8px rgba(216,180,255,.75);}
+.pt-name{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:.01em;line-height:1.2;}
+.pt-main .pt-name{color:#fff;text-shadow:0 0 8px rgba(255,255,255,.04);}
+.pt-extra .pt-name{color:#f1dcff;}
+
+/* ─── PLAYER ─── */
+.player-box{position:relative;width:100%;aspect-ratio:16/9;background:#04030e;border:1px solid var(--pb);border-radius:12px;overflow:hidden}
+.player-box video{width:100%;height:100%;object-fit:cover;display:block;}
+.thumb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;z-index:3;background:linear-gradient(160deg,#08061a,#04030e);cursor:pointer;transition:background .2s}
+.thumb:hover{background:linear-gradient(160deg,#0f0d28,#07061a)}
+.pbtn{width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(184,77,255,.7);display:flex;align-items:center;justify-content:center;box-shadow:var(--glow);transition:transform .2s,box-shadow .2s;background:rgba(184,77,255,.1)}
+.thumb:hover .pbtn{transform:scale(1.08);box-shadow:0 0 22px rgba(184,77,255,.85),0 0 55px rgba(184,77,255,.3)}
+.pbtn svg{fill:var(--p2);width:20px;height:20px;margin-left:3px}
+.pt-title-th{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--t);letter-spacing:.08em}
+.pt-cat-th{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--p2);letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+
+.side-arr{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:38px;height:76px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.25));
+  cursor:pointer;
+  transition:opacity .18s,background .18s;
+  opacity:.3;
+  border:none;
+}
+.side-arr svg{stroke:rgba(237,232,255,.9);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.player-box:hover .side-arr{opacity:1}
+.side-arr:hover{background:linear-gradient(90deg,rgba(184,77,255,.3),rgba(184,77,255,.1))}
+.side-arr:hover svg{stroke:#fff}
+.side-arr.left{left:0;border-radius:0 8px 8px 0}
+.side-arr.right{right:0;border-radius:8px 0 0 8px;background:linear-gradient(270deg,rgba(0,0,0,.5),rgba(0,0,0,.25))}
+.side-arr.right:hover{background:linear-gradient(270deg,rgba(184,77,255,.3),rgba(184,77,255,.1))}
+.side-arr:disabled{opacity:0!important;pointer-events:none}
+
+/* Стили для строки со статистикой и ссылкой под плеером */
+.video-stats-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:0.75rem;gap:1rem;
+}
+.stat-views{
+  display:flex;align-items:center;gap:0.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+  color:var(--m);background:var(--row);
+  padding:0.4rem 0.8rem;border-radius:8px;
+  border:1px solid var(--pb);
+}
+.stat-views svg{fill:var(--p2)}
+.origin-btn{
+  display:flex;align-items:center;gap:0.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+  color:var(--p2);text-decoration:none;
+  background:rgba(184,77,255,0.05);border:1px solid var(--pb);
+  padding:0.4rem 0.85rem;border-radius:8px;
+  transition:border-color .18s,background .18s,color .18s,box-shadow .18s;
+}
+.origin-btn:hover{
+  border-color:var(--p2);background:var(--pb);
+  color:var(--t);box-shadow:var(--glowsm);
+}
+.origin-btn svg{fill:currentColor}
+
+.player-meta{margin-top:1rem;display:flex;align-items:center;justify-content:space-between}
+.pm-left{display:flex;align-items:center;gap:.9rem}
+.pm-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--t);letter-spacing:.06em}
+.pm-cat{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--p2);letter-spacing:.08em;text-transform:uppercase;opacity:.8; margin-top: 3px;}
+.pm-right{display:flex;align-items:center;gap:.6rem}
+.dots{display:flex;gap:.35rem;align-items:center}
+.nd{width:5px;height:5px;border-radius:50%;background:rgba(184,77,255,.25);cursor:pointer;transition:background .2s,width .22s}
+.nd.active{background:var(--p2);width:16px;border-radius:3px;box-shadow:0 0 6px rgba(184,77,255,.6)}
+.counter{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.1em}
+
+/* ─── COLLABS ─── */
+.collab-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap:.6rem;
+}
+.collab-item{
+  padding:.6rem .8rem;
+  border-radius:8px;
+  border:1px solid rgba(184,77,255,.18);
+  background:rgba(184,77,255,.05);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:500;
+  color:rgba(237,232,255,.65);
+  letter-spacing:.05em;
+  transition:border-color .15s,color .15s,background .15s;
+  cursor:default;
+  text-align:center;
+}
+.collab-item:hover{border-color:rgba(184,77,255,.4);color:var(--t);background:rgba(184,77,255,.1)}
+
+/* ─── LINKS ─── */
+.links-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap:.7rem;
+}
+.lnk{
+  padding:.85rem 1rem;
+  border:1px solid rgba(184,77,255,.2);
+  border-radius:12px;
+  display:flex;align-items:center;gap:.75rem;
+  text-decoration:none;
+  background:rgba(184,77,255,.04);
+  transition:border-color .18s,background .18s,transform .14s;
+}
+.lnk:hover{border-color:rgba(184,77,255,.55);background:rgba(184,77,255,.1);transform:translateY(-1px)}
+.lnk-ic{
+  width:36px;height:36px;border-radius:9px;
+  background:rgba(184,77,255,.12);
+  border:1px solid rgba(184,77,255,.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--p2);font-weight:500;
+}
+.lnk-name{font-size:.88rem;font-weight:700;color:var(--t);line-height:1.2}
+.lnk-handle{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--m);letter-spacing:.03em;margin-top:.18rem}
+.lnk-wide{grid-column: 1 / -1}
+.lnk-wide .lnk-ic{background:rgba(184,77,255,.18);border-color:rgba(184,77,255,.38)}
+
+/* ─── ADAPTIVE ─── */
+@media (max-width: 600px) {
+  .top-since {
+    border-left: none;
+    border-top: 1px solid var(--pb);
+    padding-left: 0;
+    padding-top: .6rem;
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="top">
+    <div class="top-row1">
+      <div class="avatar"><div class="av-init">R</div></div>
+      <div class="top-info">
+        <div class="top-name-row">
+          <div class="top-name">rankotia<span>.vfx</span></div>
+          <a class="tg-circle" href="https://t.me/snqRankotia" target="_blank" title="Telegram личный">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+          </a>
+        </div>
+        <div class="top-roles">VFX · Motion Design · Edit · Post-production · SFX</div>
+      </div>
+      <div class="top-since">WORKING SINCE 2019</div>
+    </div>
+    <div class="top-links">
+      <a class="qlink" href="https://www.tiktok.com/@rankotia.vfx?_t=ZN-8zcT01ZdH66&_r=1" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--p2)" style="flex-shrink:0"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 1 0 5.54 6.27V8.93a8.17 8.17 0 0 0 4.78 1.52V7.01a4.85 4.85 0 0 1-1.01-.32z"/></svg>
+        <span class="qlink-dot"></span>
+        <span class="qlink-handle">@rankotia.vfx</span>
+      </a>
+      <a class="qlink" href="https://t.me/rankotiaVFX" target="_blank">
+        <span class="qlink-label">TG</span>
+        <span class="qlink-dot"></span>
+        <span class="qlink-handle">@rankotiaVFX</span>
+      </a>
+    </div>
+  </div>
+
+<div class="bio">
+    <div class="sl"><span class="sl-text">О себе</span><span class="sl-line"></span></div>
+    <div class="bio-body">
+      <p>
+        <span class="tire">—</span>
+        <span class="bio-text-content">
+          Здравствуй! Меня зовут Полина, я являюсь монтажером-контентмейкером.
+          С 2019 года работаю под псевдонимом <a href="https://tiktok.com" target="_blank">rankotia</a>.
+        </span>
+      </p>
+    </div>
+    <div class="bio-dirs-label">Мои направления</div>
+    <div class="bio-dirs">
+      <span class="dir-tag">Визуализация треков</span>
+      <span class="dir-tag">Клипы</span>
+      <span class="dir-tag">Промо</span>
+      <span class="dir-tag">Эдиты</span>
+      <span class="dir-tag">Монтаж видео</span>
+      <span class="dir-tag">SFX</span>
+      <span class="dir-tag">Постпродакшн</span>
+    </div>
+  </div>
+
+  <div class="progs">
+    <div class="sl"><span class="sl-text">Инструменты</span><span class="sl-line"></span></div>
+    <div class="prog-group">
+      <div class="prog-group-label gl-main">Основные программы</div>
+      <div class="prog-grid">
+        <div class="prog-tile pt-main"><span class="ptdot"></span><span class="pt-name">Adobe After Effects</span></div>
+        <div class="prog-tile pt-main"><span class="ptdot"></span><span class="pt-name">Adobe Premiere Pro</span></div>
+        <div class="prog-tile pt-main"><span class="ptdot"></span><span class="pt-name">Topaz Video AI</span></div>
+        <div class="prog-tile pt-main"><span class="ptdot"></span><span class="pt-name">Wondershare</span></div>
+      </div>
+    </div>
+    <div class="prog-group">
+      <div class="prog-group-label gl-extra">Дополнительно</div>
+      <div class="prog-grid">
+        <div class="prog-tile pt-extra"><span class="ptdot"></span><span class="pt-name">Blender</span></div>
+        <div class="prog-tile pt-extra"><span class="ptdot"></span><span class="pt-name">Adobe Photoshop</span></div>
+        <div class="prog-tile pt-extra"><span class="ptdot"></span><span class="pt-name">Sony Vegas Pro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="player-wrap">
+    <div class="sl"><span class="sl-text">Работы</span><span class="sl-line"></span></div>
+    <div class="player-box" id="playerBox">
+      <div class="thumb" id="thumb" onclick="playVideo()">
+        <div class="pbtn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="pt-title-th" id="thumbTitle">Destruction Age</div>
+        <div class="pt-cat-th" id="thumbCat">akiaura, LONOWN, STM · Visuals</div>
+      </div>
+      <button class="side-arr left" id="btnL" onclick="go(-1)" disabled>
+        <svg width="13" height="21" viewBox="0 0 13 21"><polyline points="10,1 2,10.5 10,20"/></svg>
+      </button>
+      <button class="side-arr right" id="btnR" onclick="go(1)">
+        <svg width="13" height="21" viewBox="0 0 13 21"><polyline points="3,1 11,10.5 3,20"/></svg>
+      </button>
+      
+      <video id="vframe" controls muted></video>
+    </div>
+    
+    <div class="video-stats-bar">
+      <div class="stat-views">
+        <svg width="14" height="14" viewBox="0 0 24 24">
+          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+        </svg>
+        <span id="videoViews">0</span>
+      </div>
+      <a id="originLink" href="#" target="_blank" class="origin-btn">
+        <span>Оригинал</span>
+        <svg width="10" height="10" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+      </a>
+    </div>
+
+    <div class="player-meta">
+      <div class="pm-left">
+        <div>
+          <div class="pm-title" id="trackName">Destruction Age</div>
+          <div class="pm-cat" id="trackCat2">akiaura, LONOWN, STM · Visuals</div>
+        </div>
+      </div>
+      <div class="pm-right">
+        <div class="dots" id="dots"></div>
+        <div class="counter" id="counter">1 / 4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collab">
+    <div class="sl"><span class="sl-text">Коллаборации</span><span class="sl-line"></span></div>
+    <div class="collab-grid">
+      <div class="collab-item">NBSPLV</div>
+      <div class="collab-item">DVRST</div>
+      <div class="collab-item">AKIAURA</div>
+      <div class="collab-item">OBLXKQ</div>
+      <div class="collab-item">EYFECT</div>
+      <div class="collab-item">KUTEONEKLAB</div>
+      <div class="collab-item">FINESSE_SCAR</div>
+      <div class="collab-item">MVTRIIIX</div>
+      <div class="collab-item">NO_FROG</div>
+      <div class="collab-item">MAX_TENS</div>
+      <div class="collab-item">VDNESS</div>
+      <div class="collab-item">MANE</div>
+      <div class="collab-item">TVNYKI</div>
+      <div class="collab-item">SHXDWBLNDNSS</div>
+      <div class="collab-item">SPVRRXV</div>
+      <div class="collab-item">MONRXE</div>
+      <div class="collab-item">NERONUS</div>
+      <div class="collab-item">KREEMSKXNVRA</div>
+      <div class="collab-item">ZETUV</div>
+      <div class="collab-item">SKYFALL</div>
+      <div class="collab-item">ENNJA</div>
+      <div class="collab-item">NIXXION</div>
+      <div class="collab-item">BULLETRAIN</div>
+      <div class="collab-item">KSMN</div>
+    </div>
+  </div>
+
+  <div class="links-section">
+    <div class="sl"><span class="sl-text">Контакты</span><span class="sl-line"></span></div>
+    <div class="links-grid">
+      <a class="lnk" href="https://www.tiktok.com/@rankotia.vfx?_t=ZN-8zcT01ZdH66&_r=1" target="_blank">
+        <div class="lnk-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--p2)"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 1 0 5.54 6.27V8.93a8.17 8.17 0 0 0 4.78 1.52V7.01a4.85 4.85 0 0 1-1.01-.32z"/></svg></div>
+        <div><div class="lnk-name">TikTok</div><div class="lnk-handle">@rankotia.vfx</div></div>
+      </a>
+      <a class="lnk" href="https://instagram.com/rankotia.vfx" target="_blank">
+        <div class="lnk-ic">IG</div>
+        <div><div class="lnk-name">Instagram</div><div class="lnk-handle">rankotia.vfx</div></div>
+      </a>
+      <a class="lnk" href="https://youtube.com/@rankotia" target="_blank">
+        <div class="lnk-ic">YT</div>
+        <div><div class="lnk-name">YouTube</div><div class="lnk-handle">@rankotia</div></div>
+      </a>
+      <a class="lnk" href="https://m.vk.com/rankotia" target="_blank">
+        <div class="lnk-ic">VK</div>
+        <div><div class="lnk-name">ВКонтакте</div><div class="lnk-handle">rankotia</div></div>
+      </a>
+      <a class="lnk" href="https://t.me/rankotiaVFX" target="_blank">
+        <div class="lnk-ic">TG</div>
+        <div><div class="lnk-name">Telegram канал</div><div class="lnk-handle">@rankotiaVFX</div></div>
+      </a>
+      <a class="lnk" href="https://t.me/snqRankotia" target="_blank">
+        <div class="lnk-ic">TG</div>
+        <div><div class="lnk-name">Telegram личный</div><div class="lnk-handle">@snqRankotia</div></div>
+      </a>
+      <a class="lnk lnk-wide" href="https://t.me/crestalacultura" target="_blank">
+        <div class="lnk-ic">®</div>
+        <div><div class="lnk-name">Лейбл Cresta La Cultura</div><div class="lnk-handle">t.me/crestalacultura</div></div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const works = [
+  {
+    title: 'Destruction Age',
+    cat: 'akiaura, LONOWN, STM · Visuals',
+    type: 'yt',
+    file: 'akiaura LONOWN STM - Destruction Age Official Visualizer [get.gt].mp4', 
+    views: '1.4M',
+    origin: 'https://www.youtube.com/watch?v=QJ-AsguyBgo'
+  },
+  {
+    title: 'Mindful',
+    cat: 'NBSPLV · Visuals',
+    type: 'yt',
+    file: 'NBSPLV - Mindful [get.gt].mp4', 
+    views: '840K',
+    origin: 'https://www.youtube.com/watch?v=nSzd4JVd2DY'
+  },
+  {
+    title: 'EsDeeKid',
+    cat: 'Edit · TikTok',
+    type: 'tk',
+    file: 'Без названия.mp4', 
+    views: '3.5M',
+    origin: 'https://vm.tiktok.com/ZNRb4Kbar/'
+  },
+  {
+    title: 'Midsommar',
+    cat: 'Edit · TikTok',
+    type: 'tk',
+    file: 'Без названия (1).mp4', 
+    views: '1.8M',
+    origin: 'https://vm.tiktok.com/ZNRbV832m/'
+  }
+];
+
+let cur = 0;
+const videoPlayer = document.getElementById('vframe');
+const videoViews = document.getElementById('videoViews');
+const originLink = document.getElementById('originLink');
+const btnL = document.getElementById('btnL');
+const btnR = document.getElementById('btnR');
+const dotsEl = document.getElementById('dots');
+
+// Генерация точек навигации
+works.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'nd' + (i === 0 ? ' active' : '');
+  d.onclick = () => jumpTo(i);
+  dotsEl.appendChild(d);
+});
+
+function updateUI() {
+  const w = works[cur];
+  
+  // Обновляем тексты в описании под видео
+  document.getElementById('trackName').textContent = w.title;
+  document.getElementById('trackCat2').textContent = w.cat;
+  document.getElementById('counter').textContent = (cur + 1) + ' / ' + works.length;
+  
+  // Обновляем тексты на заставке-превью (thumb)
+  document.getElementById('thumbTitle').textContent = w.title;
+  document.getElementById('thumbCat').textContent = w.cat;
+  
+  // Ставим видео из локального скачанного файла
+  videoPlayer.src = w.file;
+  videoPlayer.load(); // Подгружаем новый поток
+  
+  // Возвращаем видимость превью при переключении слайдов
+  document.getElementById('thumb').style.display = 'flex';
+  
+  // Обновляем количество просмотров и ссылку на оригинал
+  videoViews.textContent = w.views;
+  originLink.href = w.origin;
+  originLink.querySelector('span').textContent = w.type === 'yt' ? 'YouTube оригинал' : 'TikTok оригинал';
+
+  // Активные точки навигации и переключение кнопок стрелок
+  document.querySelectorAll('.nd').forEach((d, i) => d.classList.toggle('active', i === cur));
+  btnL.disabled = cur === 0;
+  btnR.disabled = cur === works.length - 1;
+}
+
+// Запуск функции воспроизведения при клике по превью (thumb)
+function playVideo() {
+  document.getElementById('thumb').style.display = 'none';
+  videoPlayer.play().catch(err => {
+    console.log("Воспроизведение задержано или файл не найден:", err);
+  });
+}
+
+function go(dir) { jumpTo(cur + dir); }
+function jumpTo(i) { if (i < 0 || i >= works.length) return; cur = i; updateUI(); }
+
+// Стартовая инициализация интерфейса при загрузке страницы
+updateUI();
+</script>
+</body>
+</html>
